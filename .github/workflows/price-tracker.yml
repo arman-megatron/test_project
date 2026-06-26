@@ -14,7 +14,11 @@ jobs:
           python-version: "3.11"
           cache: "pip"
       - run: pip install -r requirements.txt
-      - run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+      - name: Write Google credentials
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > credentials.json
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
       - name: Run price tracker
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
